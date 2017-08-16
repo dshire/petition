@@ -1,0 +1,33 @@
+*{
+    color: green;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    border: red dashed 2px;
+    /*position: fixed;*/
+}
+
+button {
+    background-color: black;
+    border-radius: 15px;
+    width: 130px;
+    height: 50px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+
+}
