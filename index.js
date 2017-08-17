@@ -27,14 +27,12 @@ app.use(function cookieCheck(req, res, next) {
     }  else {
         next();
     }
-
 });
 
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
     res.render('petition', {
-
     });
 });
 
@@ -44,9 +42,7 @@ app.get('/signed', function (req, res) {
         db.query(`SELECT COUNT(*) FROM signatures`).then(function(result) {
             numSig = result.rows[0].count;
 
-
         }).then(function(){
-
             db.query(`SELECT signature FROM signatures WHERE id = ${req.session.sigId}`).then(function(result){
                 res.render('signed', {
                     img: result.rows[0].signature,
@@ -56,9 +52,47 @@ app.get('/signed', function (req, res) {
         }).catch(function(err) {
             console.log(err);
         });
-
     } else {
         res.redirect('/');
+    }
+});
+
+app.get('/sign', (req, res) => {
+    let numSig = 0;
+    if (req.session.sigId) {
+        db.query(`SELECT COUNT(*) FROM signatures`).then(function(result) {
+            numSig = result.rows[0].count;
+
+        }).then(function(){
+
+            db.query(`SELECT signature FROM signatures WHERE id = ${req.session.sigId}`).then(function(result){
+                res.render('sign', {
+                    img: result.rows[0].signature,
+                    numSig: numSig
+                });
+            });
+        }).catch(function(err) {
+            console.log(err);
+        });
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.post('/sign', (req, res) => {
+    if (req.body.sig.length > 0) {
+
+        db.query(`UPDATE signatures SET signature = $1 WHERE id = $2`, [req.body.sig, req.session.sigId]).then(function(result) {
+            console.log(result);
+
+
+            res.redirect('/signed');
+        }).catch(function(err) {
+            console.log(err);
+        });
+
+    } else {
+        res.redirect('/sign');
     }
 });
 
@@ -103,6 +137,8 @@ app.get('/logout', (req, res) => {
     req.session = null;
     res.redirect('/');
 });
+
+
 
 app.get('*', function(req,res) {
     res.redirect('/');
