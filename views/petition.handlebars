@@ -2,20 +2,14 @@
 <h1>Sign our petition!</h1>
 <p>We demand a new Emoji for Europe's favorite vegetable - Asparagus!</p>
 <div id="error-message">{{error}}</div>
-<form action="/" method="POST">
-    <div>
-        <input id="first" name="First" type="text">
-        <p>First Name</p>
-    </div>
-    <div>
-        <input id="last" name="Last" type="text">
-        <input id="sig" name="sig" type="hidden">
-        <p>Last Name</p>
-    </div>
+<form action="/sign" method="POST">
     <div>
         <p>Sign here:</p>
         <canvas id="sign-field" width="500" height="100"></canvas>
+        <p>{{name}}</p>
+        <input id="sig" name="sig" type="hidden">
     </div>
     <button type="submit">SUBMIT</button>
 </form>
+<a id="logout" href="/logout">Logout</a>
 <script src="script.js"></script>

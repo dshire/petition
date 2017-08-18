@@ -3,12 +3,14 @@
 <img id="signed" src="{{img}}">
 <a id="link" href="/signers">&lt; Keep signature and see all {{numSig}} signers &gt;</a>
 
-<form action="/sign" method="POST">
+<form action="/signAgain" method="POST">
     <input id="sig" name="sig" type="hidden">
     <div>
         <p>Sign here:</p>
         <canvas id="sign-field" width="500" height="100"></canvas>
+        <p>{{name}}</p>
     </div>
     <button type="submit">SUBMIT</button>
 </form>
+<a id="logout" href="/logout">Logout</a>
 <script src="script.js"></script>
