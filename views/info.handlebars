@@ -1,0 +1,17 @@
+<h2>Please tell us more about yourself!</h2>
+<form action="/info" method="POST">
+    <div>
+        <input id="age" name="age" type="text" autofocus>
+        <p>Age</p>
+    </div>
+    <div>
+        <input id="city" name="city" type="text">
+        <p>City</p>
+    </div>
+    <div>
+        <input id="homepage" name="homepage" type="text">
+        <p>Homepage</p>
+    </div>
+    <button type="submit">CONTINUE</button>
+</form>
+<div id="error-message">{{error}}</div>

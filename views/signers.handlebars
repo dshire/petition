@@ -1,6 +1,14 @@
 <h3>We the undersigned demand an asparagus emoji to fill the void we feel within us whenever we write text messages.</h3>
 <div>
     {{#each signers}}
-    <p>{{this.first}} {{this.last}}</p>
+        {{#if this.url}}
+            <div class=info-homepage>
+                <a href="//{{this.url}}">{{this.first}} {{this.last}}</a><p>{{#if this.age}}&nbsp;({{this.age}}{{#if this.city}}, {{this.city}}{{/if}}){{else if this.city}} ({{this.city}}){{/if}}</p>
+            </div>
+        {{else}}
+            <p>{{this.first}} {{this.last}}
+                {{#if this.age}} ({{this.age}}{{#if this.city}}, {{this.city}}{{/if}}){{else if this.city}} ({{this.city}}){{/if}}
+            </p>
+        {{/if}}
     {{/each}}
 </div>

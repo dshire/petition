@@ -1,17 +1,23 @@
+
 *{
     color: green;
-    margin: 0;
+    margin: 0 auto;
     box-sizing: border-box;
+    display: block;
+    user-select: none;
+    font-family:'Proxima Nova', sans-serif;
+
+}
+
+h1, h2, h3, p {
+    cursor: default;
 }
 
 body {
     background-color: white;
     text-align: center;
     width: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
+
 }
 
 canvas {
@@ -20,9 +26,10 @@ canvas {
 }
 
 button {
+
     background-color: black;
     border-radius: 15px;
-    width: 130px;
+    width: 150px;
     height: 80px;
     display: flex;
     flex-flow: column;
@@ -40,4 +47,8 @@ button {
 #signed {
     width: 500px;
     height: 100px;
+}
+
+.info-homepage p, a {
+    display:inline-block;
 }

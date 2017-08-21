@@ -38,6 +38,10 @@ app.get('/', function (req, res){
     res.render('signup', {});
 });
 
+app.get('/info', function(req,res) {
+    res.render('info', {});
+});
+
 app.get('/login', function(req, res) {
     if (req.session.user) {
         res.redirect('/sign');
@@ -62,7 +66,7 @@ app.get('/signed', function (req, res) {
         db.query(`SELECT COUNT(*) FROM signatures`).then(function(result) {
             numSig = result.rows[0].count;
         }).then(function(){
-            db.query(`SELECT signature FROM signatures WHERE id = ${req.session.user.sigId}`).then(function(result){
+            db.query(`SELECT signature FROM signatures WHERE id = $1`, [req.session.user.sigId]).then(function(result){
                 res.render('signed', {
                     img: result.rows[0].signature,
                     numSig: numSig,
@@ -101,13 +105,13 @@ app.get('/signAgain', (req, res) => {
 });
 
 app.get('/signers', function (req, res) {
-    let list = [];
     if (req.session.user) {
-        db.query(`SELECT first , last FROM signatures`).then(function(result){
-
-            list = result.rows;
+        db.query(`SELECT users.first AS first , users.last AS last, user_profiles.age, user_profiles.city, user_profiles.url
+        FROM signatures JOIN users ON users.id = signatures.user_id
+        JOIN user_profiles ON users.id = user_profiles.user_id`).then(function(result){
+            // console.log(result);
             res.render('signers', {
-                signers: list
+                signers: result.rows
             });
         }).catch(function(err) {
             console.log(err);
@@ -132,7 +136,7 @@ app.post('/', (req, res) => {
                 first: req.body.First,
                 last: req.body.Last,
             };
-            res.redirect('/sign');
+            res.redirect('/info');
         }).catch(function(err) {
             console.log(err);
             if (err.code == 23505) {
@@ -147,9 +151,20 @@ app.post('/', (req, res) => {
         });
     } else {
         res.render('signup', {
-            error: 'Oops, something went wrong. Please try again!'
+            error: 'Please fill out all fields!'
         });
     }
+});
+
+app.post('/info', (req,res) => {
+    if(!req.body.age) {
+        req.body.age = null;
+    }
+    db.query(`INSERT INTO user_profiles (user_id, age, city, url) VALUES ($1, $2, $3, $4)`, [req.session.user.id, req.body.age, req.body.city, req.body.homepage]).then(function() {
+        res.redirect('/sign');
+    }).catch(function(err) {
+        console.log(err);
+    });
 });
 
 app.post('/login', (req, res) => {
@@ -188,7 +203,7 @@ app.post('/login', (req, res) => {
 
 app.post('/sign', (req, res) => {
     if (req.body.sig.length > 0) {
-        db.query(`INSERT INTO signatures (user_id, first, last, signature) VALUES ($1, $2, $3, $4) RETURNING id`, [req.session.user.id, req.session.user.first, req.session.user.last, req.body.sig]).then(function(result) {
+        db.query(`INSERT INTO signatures (user_id, signature) VALUES ($1, $2) RETURNING id`, [req.session.user.id, req.body.sig]).then(function(result) {
             req.session.user.sigId = result.rows[0].id;
             res.redirect('/signed');
         }).catch(function(err) {
