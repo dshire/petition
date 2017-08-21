@@ -121,6 +121,23 @@ app.get('/signers', function (req, res) {
     }
 });
 
+app.get('/cities/:city', (req,res) => {
+    if (req.session.user) {
+        db.query(`SELECT users.first AS first, users.last AS last, user_profiles.age
+        FROM signatures JOIN users ON users.id = signatures.user_id
+        JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_profiles.city = $1`, [req.params.city]).then(function(result) {
+            res.render ('city', {
+                city: req.params.city,
+                signers: result.rows
+            });
+        }).catch(function(err) {
+            console.log(err);
+        });
+    } else {
+        res.redirect('/');
+    }
+});
+
 app.get('/logout', (req, res) => {
     req.session = null;
     res.redirect('/');
