@@ -1,5 +1,6 @@
 <h1>Please log in</h1>
 <form action="/login" method="POST">
+    <input type="hidden" name"_csrf" value="{{csrfToken}}">
     <div>
         <input id="mail" name="mail" type="text" placeholder="Enter email" autofocus required>
         <p>Email Address</p>

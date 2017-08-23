@@ -1,5 +1,6 @@
 <h2>Edit your profile</h2>
 <form action="/edit" method="POST">
+    <input type="hidden" name"_csrf" value="{{csrfToken}}">
     <div>
         <input id="first" name="First" type="text" value="{{first}}" placeholder="your first name" required>
         <p>First Name</p>

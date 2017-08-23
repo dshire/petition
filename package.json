@@ -31,6 +31,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.14.1",
     "redis": "^2.6.2",
+    "serve-favicon": "^2.4.3",
     "spiced-pg": "spicedacademy/spiced-pg"
   }
 }

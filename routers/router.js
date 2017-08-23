@@ -1,18 +1,42 @@
 var express = require('express'),
     router = express.Router();
+var cookieSession = require('cookie-session');
 const spicedPg = require('spiced-pg');
 const secrets = require('../secrets.json');
 const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
 const bcrypt = require('../bcrypt.js');
+var csrf = require('csurf');
 
-router.route('/')
+var csrfProtection = csrf({cookie: true});
+router.use(require('body-parser').urlencoded({
+    extended: false
+}));
+router.use(require('cookie-parser')());
 
-    .get((req, res) => {
-        res.render('signup', {});
-    })
+router.use(cookieSession({
+    secret: secrets.sessionSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 14
+}));
 
-    .post((req, res) => {
-        if (req.body.First.length > 0 && req.body.Last.length > 0 && req.body.mail.length > 0 && req.body.pass.length > 0) {
+
+router.use(function cookieCheck(req, res, next) {
+    if (req.session.user && (req.url == '/' || req.url == "/login")) {
+        res.redirect('/sign');
+    } else if (req.session.user && req.session.user.sigId && req.url == '/sign') {
+        res.redirect('/signed');
+    } else if (!req.session.user && (req.url == '/sign' || req.url == '/edit' || req.url == '/delete' || req.url == '/logout')) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+});
+
+// router.route('/')
+    // .all(csrfProtection)
+
+    router.post('/',csrfProtection,(req, res) => {
+        console.log('we are at post /');
+            if (req.body.First.length > 0 && req.body.Last.length > 0 && req.body.mail.length > 0 && req.body.pass.length > 0) {
             bcrypt.hashPassword(req.body.pass).then(function(hash){
                 return db.query(`INSERT INTO users (first, last, mail, pass) VALUES ($1, $2, $3, $4) RETURNING id`, [req.body.First, req.body.Last, req.body.mail, hash]);
             }).then(function(result){
@@ -41,6 +65,18 @@ router.route('/')
         }
     })
 ;
+router.get('/',csrfProtection,(req, res) => {
+    console.log(req.session);
+    res.render('signup', {
+        csrfToken: req.csrfToken()
+    });
+});
+
+router.get('/welcome', (req, res) => {
+    res.render('welcome', {
+        layout: 'welcome-main'
+    });
+});
 
 router.route('/info')
 
@@ -241,6 +277,8 @@ router.route('/edit')
         if (req.body.age == '') {
             req.body.age = null;
         }
+        req.session.user.first = req.body.First;
+        req.session.user.last = req.body.Last;
         if (req.body.pass.length > 0) {
             bcrypt.hashPassword(req.body.pass).then(function(hash){
                 db.query(`UPDATE users SET first = $1, last = $2, mail = $3, pass = $4 WHERE id = $5`, [req.body.First, req.body.Last, req.body.mail, hash, req.session.user.id]);
