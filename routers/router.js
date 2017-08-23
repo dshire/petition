@@ -2,7 +2,14 @@ var express = require('express'),
     router = express.Router();
 var cookieSession = require('cookie-session');
 const spicedPg = require('spiced-pg');
-const secrets = require('../secrets.json');
+
+var secrets;
+if (process.env) {
+
+} else {
+    secrets = require('../secrets.json');  
+}
+
 const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
 const bcrypt = require('../bcrypt.js');
 // var csrf = require('csurf');
