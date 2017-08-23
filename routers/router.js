@@ -5,9 +5,9 @@ const spicedPg = require('spiced-pg');
 const secrets = require('../secrets.json');
 const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
 const bcrypt = require('../bcrypt.js');
-var csrf = require('csurf');
-
-var csrfProtection = csrf({cookie: true});
+// var csrf = require('csurf');
+//
+// var csrfProtection = csrf({cookie: true});
 router.use(require('body-parser').urlencoded({
     extended: false
 }));
@@ -34,43 +34,44 @@ router.use(function cookieCheck(req, res, next) {
 // router.route('/')
     // .all(csrfProtection)
 
-    router.post('/',csrfProtection,(req, res) => {
-        console.log('we are at post /');
-            if (req.body.First.length > 0 && req.body.Last.length > 0 && req.body.mail.length > 0 && req.body.pass.length > 0) {
-            bcrypt.hashPassword(req.body.pass).then(function(hash){
-                return db.query(`INSERT INTO users (first, last, mail, pass) VALUES ($1, $2, $3, $4) RETURNING id`, [req.body.First, req.body.Last, req.body.mail, hash]);
-            }).then(function(result){
-                req.session.user = {
-                    id: result.rows[0].id,
-                    first: req.body.First,
-                    last: req.body.Last,
-                };
-                res.redirect('/info');
-            }).catch(function(err) {
-                console.log(err);
-                if (err.code == 23505) {
-                    res.render('signup', {
-                        error: 'This Email address is already in use. Please choose a different one!'
-                    });
-                } else {
-                    res.render('signup', {
-                        error: 'Oops, something went wrong. Please try again!'
-                    });
-                }
-            });
-        } else {
-            res.render('signup', {
-                error: 'Please fill out all fields!'
-            });
-        }
-    })
-;
-router.get('/',csrfProtection,(req, res) => {
+router.get('/',(req, res) => {
     console.log(req.session);
     res.render('signup', {
-        csrfToken: req.csrfToken()
+        // csrfToken: req.csrfToken()
     });
 });
+
+router.post('/',(req, res) => {
+    if (req.body.First.length > 0 && req.body.Last.length > 0 && req.body.mail.length > 0 && req.body.pass.length > 0) {
+        bcrypt.hashPassword(req.body.pass).then(function(hash){
+            return db.query(`INSERT INTO users (first, last, mail, pass) VALUES ($1, $2, $3, $4) RETURNING id`, [req.body.First, req.body.Last, req.body.mail, hash]);
+        }).then(function(result){
+            req.session.user = {
+                id: result.rows[0].id,
+                first: req.body.First,
+                last: req.body.Last,
+            };
+            res.redirect('/info');
+        }).catch(function(err) {
+            console.log(err);
+            if (err.code == 23505) {
+                res.render('signup', {
+                    error: 'This Email address is already in use. Please choose a different one!'
+                });
+            } else {
+                res.render('signup', {
+                    error: 'Oops, something went wrong. Please try again!'
+                });
+            }
+        });
+    } else {
+        res.render('signup', {
+            error: 'Please fill out all fields!'
+        });
+    }
+})
+;
+
 
 router.get('/welcome', (req, res) => {
     res.render('welcome', {
@@ -94,7 +95,7 @@ router.route('/info')
             console.log(err);
         });
     })
-;
+    ;
 
 router.route('/login')
 
