@@ -1,7 +1,6 @@
 var mymap = L.map('mapid').setView([48.5166, 10.45898], 5);
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox.streets-satellite',
     accessToken: 'pk.eyJ1IjoiZHNoaXJlIiwiYSI6ImNqNm5vbXNheTBhbnEycXBieWhwNmw2ZTEifQ.Xsuz8-0E3C7AclNDX02AoQ'

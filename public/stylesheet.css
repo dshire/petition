@@ -1,27 +1,84 @@
-
+/*-----------------GENERAL STUFF------------*/
 *{
     color: green;
     margin: 0 auto;
     box-sizing: border-box;
-    display: block;
-    user-select: none;
     font-family:'Proxima Nova', sans-serif;
-
+    user-select: none;
 }
 
-#mapid {
-    height: 100vh; 
-}
-
-h1, h2, h3, p {
-    cursor: default;
+html{
+    font-size: 10px;
 }
 
 body {
     background-color: white;
     text-align: center;
     width: 100%;
+    display: block;
+}
 
+h1, h2, h3, p {
+    cursor: default;
+}
+
+/*----------------------HEAD-----------------------*/
+.header-cont {
+    background-image: url("/images/spargel.jpg");
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: center;
+}
+
+.header-title {
+    width: auto;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.header-title h2 {
+    color: white;
+    /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+    line-height: 1.5em;
+    text-align:right;
+    font-family: 'proxima_nova_ltthin';
+    padding-right: 30px;
+    font-size: 3rem;
+}
+
+.title {
+    position: sticky;
+    background-color: #98AC32;
+}
+
+.title h3 {
+    color: white;
+    line-height: 1.5em;
+    font-size: 2em;
+    margin: 0 120px 0 120px;
+    padding: 15px;
+    font-family: 'proxima_nova_scosfthin';
+}
+
+#logo {
+    height: 100px;
+    position: absolute;
+    left: 10px;
+    top: calc(50% - 50px);
+}
+
+/*-----------------BODY------------------*/
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.body-title {
+    margin: 50px 200px 20px 200px;
+    width: auto;
 }
 
 canvas {
@@ -30,17 +87,19 @@ canvas {
 }
 
 button {
+    font-family: 'proxima_nova_ltthin';
+    background-color: #98AC32;
+    color: white;
+    border-style: none;
+    border-radius: 5px;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 8px;
+    margin: 20px 0;
+}
 
-    background-color: black;
-    border-radius: 15px;
-    width: 150px;
-    height: 80px;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-
+button:hover {
+    background-color: #768626;
 }
 
 #sig {
@@ -55,4 +114,59 @@ button {
 
 .info-homepage p, a {
     display:inline-block;
+}
+
+.form {
+    width: 150px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.form p {
+    margin-top: 3px;
+    font-size: 1.3rem;
+}
+.form input {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    width: 100%;
+}
+
+
+#mapid {
+    height: 70vh;
+    z-index: -10;
+}
+
+#login {
+    float: right;
+    font-family: 'proxima_nova_ltthin';
+    background-color: #98AC32;
+    color: white;
+    position: relative;
+    bottom: 53px;
+    border: solid white 0.5px;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 3px 5px;
+    margin: 10px 20px 10px 0;
+    text-decoration: none;
+}
+
+#login:hover {
+    background-color: #768626;
+}
+
+/*---------------MOBILE----------------*/
+@media screen and (max-width: 500px) {
+    html{
+        font-size: 11px;
+    }
+
+    .body-title {
+        margin: 30px 30px 20px 30px;
+        width: auto;
+    }
+
 }

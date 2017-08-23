@@ -1,26 +1,37 @@
-<h2>The world is aching for Asparagus Emojis</h2>
-<h2>-</h2>
-<h2>Do your part and join our campaign!</h2>
-<h2>Every voice counts</h2>
+<header id="header">
+    <div class="header-cont">
+        <div class="header-title">
+            <h2>FOR A BETTER WORLD</h2>
+        </div>
+    </div>
+    <div class="title">
+        <img id="logo" src="/images/icon-asparagus.png" alt="symbol">
+        <h3>Petition for the Introduction of Asparagus Emoji</h3>
+        <a id="login" href="/login">Log in</a>
+    </div>
+</header>
+<div class="body-title">
+    <h2>The World Needs Asparagus Emoji:<br/>Do Your Part and Join our Campaign!</h2>
+</div>
 <form action="/" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <div>
-        <input id="first" name="First" type="text" autofocus placeholder="your first name" required>
+    <div class="form">
+        <input id="first" name="First" type="text" autofocus required>
         <p>First Name</p>
     </div>
-    <div>
-        <input id="last" name="Last" type="text" placeholder="your last name" required>
+    <div class="form">
+        <input id="last" name="Last" type="text" required>
         <p>Last Name</p>
     </div>
-    <div>
-        <input id="mail" name="mail" type="text" placeholder="your email" required>
+    <div class="form">
+        <input id="mail" name="mail" type="text" required>
         <p>Email Address</p>
     </div>
-    <div>
-        <input id="pass" name="pass" type="password" placeholder="enter password" required>
+    <div class="form">
+        <input id="pass" name="pass" type="password" required>
         <p>Password</p>
     </div>
-    <button type="submit">SIGN UP</button>
+    <div id="error-message">{{error}}</div>
+    <button type="submit">Sign Up</button>
 </form>
-<a id="login" href="/login">Log in</a>
-<div id="error-message">{{error}}</div>
+<h2>Every voice counts!</h2>
