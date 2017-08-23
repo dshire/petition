@@ -3,25 +3,35 @@ var express = require('express'),
 var cookieSession = require('cookie-session');
 const spicedPg = require('spiced-pg');
 
-var secrets;
-if (process.env) {
 
+var db;
+if (process.env.DATABASE_URL) {
+    db = spicedPg(process.env.DATABASE_URL);
 } else {
-    secrets = require('../secrets.json');  
+    const secrets = require('../secrets.json');
+    db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
 }
 
-const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
+var sessionSecret;
+if (process.env.SESSION_SECRET) {
+    sessionSecret = process.env.SESSION_SECRET;
+} else {
+    const secrets = require('../secrets.json');
+    sessionSecret = secrets.sessionSecret;
+}
+
 const bcrypt = require('../bcrypt.js');
-// var csrf = require('csurf');
-//
-// var csrfProtection = csrf({cookie: true});
+
+var csrf = require('csurf');
+var csrfProtection = csrf();
+
 router.use(require('body-parser').urlencoded({
     extended: false
 }));
 router.use(require('cookie-parser')());
 
 router.use(cookieSession({
-    secret: secrets.sessionSecret,
+    secret: sessionSecret,
     maxAge: 1000 * 60 * 60 * 24 * 14
 }));
 
@@ -41,14 +51,13 @@ router.use(function cookieCheck(req, res, next) {
 // router.route('/')
     // .all(csrfProtection)
 
-router.get('/',(req, res) => {
-    console.log(req.session);
+router.get('/', csrfProtection, (req, res) => {
     res.render('signup', {
-        // csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken()
     });
 });
 
-router.post('/',(req, res) => {
+router.post('/', csrfProtection, (req, res) => {
     if (req.body.First.length > 0 && req.body.Last.length > 0 && req.body.mail.length > 0 && req.body.pass.length > 0) {
         bcrypt.hashPassword(req.body.pass).then(function(hash){
             return db.query(`INSERT INTO users (first, last, mail, pass) VALUES ($1, $2, $3, $4) RETURNING id`, [req.body.First, req.body.Last, req.body.mail, hash]);
@@ -87,9 +96,12 @@ router.get('/welcome', (req, res) => {
 });
 
 router.route('/info')
+    .all(csrfProtection)
 
     .get((req,res) => {
-        res.render('info', {});
+        res.render('info', {
+            csrfToken: req.csrfToken()
+        });
     })
 
     .post((req,res) => {
@@ -106,8 +118,12 @@ router.route('/info')
 
 router.route('/login')
 
+    .all(csrfProtection)
+
     .get(function(req, res) {
-        res.render('login', {});
+        res.render('login', {
+            csrfToken: req.csrfToken()
+        });
     })
 
     .post((req, res) => {
@@ -146,8 +162,11 @@ router.route('/login')
 
 router.route('/sign')
 
+    .all(csrfProtection)
+
     .get(function (req, res) {
         res.render('petition', {
+            csrfToken: req.csrfToken(),
             name: req.session.user.first + ' ' + req.session.user.last
         });
     })
@@ -193,6 +212,8 @@ router.get('/signed', function (req, res) {
 
 router.route('/signAgain')
 
+    .all(csrfProtection)
+
     .get((req, res) => {
         let numSig = 0;
         if (req.session.user.sigId) {
@@ -203,6 +224,7 @@ router.route('/signAgain')
 
                 db.query(`SELECT signature FROM signatures WHERE id = $1`, [req.session.user.sigId]).then(function(result){
                     res.render('signAgain', {
+                        csrfToken: req.csrfToken(),
                         img: result.rows[0].signature,
                         numSig: numSig,
                         name: req.session.user.first + ' ' + req.session.user.last
@@ -265,10 +287,13 @@ router.get('/cities/:city', (req,res) => {
 
 router.route('/edit')
 
+    .all(csrfProtection)
+
     .get((req, res) => {
         db.query(`SELECT users.first, users.last, user_profiles.age, user_profiles.url, user_profiles.city, users.mail
             FROM user_profiles JOIN users ON users.id = user_profiles.user_id WHERE users.id = $1`, [req.session.user.id]).then(function(result){
                 res.render('edit', {
+                    csrfToken: req.csrfToken(),
                     first:  result.rows[0].first,
                     last:  result.rows[0].last,
                     mail:  result.rows[0].mail,
