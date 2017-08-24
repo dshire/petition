@@ -3,13 +3,25 @@
 <form action="/login" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div>
-        <input id="mail" name="mail" type="text" placeholder="Enter email" autofocus required>
+        <input id="mail" name="mail" type="text" autofocus required {{#if block}}disabled{{/if}}>
         <p>Email Address</p>
     </div>
     <div>
-        <input id="pass" name="pass" type="password" placeholder="Enter password" required>
+        <input id="pass" name="pass" type="password" required {{#if block}}disabled{{/if}}>
         <p>Password</p>
     </div>
-    <button type="submit">LOG IN</button>
+    <button type="submit" {{#if block}}disabled{{/if}}>LOG IN</button>
 </form>
 <div id="error-message">{{error}}</div>
+
+{{#if block}}
+<script>
+    setTimeout(function () {
+        $('input').prop('disabled', false);
+    }, ({{timer}}*1000) );
+
+    setTimeout(function () {
+        $('button').prop('disabled', false);
+    }, ({{timer}}*1000) );
+</script>
+{{/if}}

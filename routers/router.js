@@ -153,22 +153,167 @@ router.route('/login')
                 return bcrypt.checkPassword(req.body.pass, result.rows[0].pass);
             }).then(function(correctPass) {
                 if (correctPass) {
-                    req.session.user = {
-                        id: results.rows[0].id,
-                        first: results.rows[0].first,
-                        last: results.rows[0].last
-                    };
-                    db.query(`SELECT signature, id FROM signatures WHERE user_id = $1`, [results.rows[0].id]).then(function(result){
 
-                        if (result.rows[0].signature && result.rows[0].signature.length > 0) {
-                            req.session.user.sigId = result.rows[0].id;
-                            res.redirect('/signed');
-                        } else { res.redirect('/sign');}
+
+                    client.get(req.body.mail, (err, data) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        if (data >= 3) {
+                            var tries = data;
+                            client.ttl(req.body.mail, (err, data) => {
+                                if (err) {
+                                    return console.log(err);
+                                }
+                                res.render('login', {
+                                    block: true,
+                                    timer: data,
+                                    csrfToken: req.csrfToken(),
+                                    error: 'You entered the wrong password ' + tries + ' times. Wait ' + data + ' seconds to try again.'
+                                });
+                            });
+                        } else {
+
+                            client.del(req.body.mail, (err, data) => {
+                                if (err) {
+                                    return console.log(err);
+                                }
+                            });
+                            client.del((req.body.mail + 'Err'), (err, data) => {
+                                if (err) {
+                                    return console.log(err);
+                                }
+                            });
+                            req.session.user = {
+                                id: results.rows[0].id,
+                                first: results.rows[0].first,
+                                last: results.rows[0].last
+                            };
+                            db.query(`SELECT signature, id FROM signatures WHERE user_id = $1`, [results.rows[0].id]).then(function(result){
+
+                                if (result.rows[0].signature && result.rows[0].signature.length > 0) {
+                                    req.session.user.sigId = result.rows[0].id;
+                                    res.redirect('/signed');
+                                } else { res.redirect('/sign');}
+                            });
+
+                        }
                     });
+
                 } else {
-                    res.render('login', {
-                        csrfToken: req.csrfToken(),
-                        error: 'Wrong mail or password, please try again!',
+                    client.incr((req.body.mail + 'Err'), (err, data) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        client.get((req.body.mail + 'Err'), (err, data) => {
+                            if (err) {
+                                return console.log(err);
+                            }
+                        });
+                    });
+
+                    client.get(req.body.mail, (err, data) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        if (data) {
+                            client.incr(req.body.mail, (err, data) => {
+                                if (err) {
+                                    return console.log(err);
+                                }
+                                if (data >= 3) {
+                                    var timer = 30 + ((data - 3) * 30);
+
+                                    client.expire(req.body.mail, timer, (err, data) => {
+                                        if (err) {
+                                            return console.log(err);
+                                        }
+                                    });
+
+                                    res.render('login', {
+                                        block: true,
+                                        timer: timer,
+                                        csrfToken: req.csrfToken(),
+                                        error: 'You entered the wrong password ' + data + ' times. Wait ' + timer + ' seconds to try again.'
+                                    });
+                                } else {
+                                    res.render('login', {
+                                        csrfToken: req.csrfToken(),
+                                        error: 'Wrong mail or password, please try again!'
+                                    });
+                                }
+                            });
+                        } else {
+                            client.get((req.body.mail + 'Err'), (err, data) => {
+                                if (err) {
+                                    return console.log(err);
+                                }
+
+                                if (data) {
+                                    client.set(req.body.mail, data, (err, data) => {
+                                        if (err) {
+                                            return console.log(err);
+                                        }
+                                        client.expire(req.body.mail, 60, (err, data) => {
+                                            if (err) {
+                                                return console.log(err);
+                                            }
+                                        });
+                                        client.get(req.body.mail, (err, data) => {
+                                            if (err) {
+                                                return console.log(err);
+                                            }
+                                            if (data >= 3) {
+                                                var timer = 30 + ((data - 3) * 30);
+
+                                                client.expire(req.body.mail, timer, (err, data) => {
+                                                    if (err) {
+                                                        return console.log(err);
+                                                    }
+                                                });
+
+                                                res.render('login', {
+                                                    block: true,
+                                                    timer: timer,
+                                                    csrfToken: req.csrfToken(),
+                                                    error: 'You entered the wrong password ' + data + ' times. Wait ' + timer + ' seconds to try again.'
+                                                });
+
+                                            } else {
+                                                res.render('login', {
+                                                    csrfToken: req.csrfToken(),
+                                                    error: 'Wrong mail or password, please try again!'
+                                                });
+                                            }
+                                        });
+
+
+                                    });
+
+
+                                } else {
+
+                                    client.set(req.body.mail, 1, (err, data) => {
+                                        if (err) {
+                                            return console.log(err);
+                                        }
+                                        client.expire(req.body.mail, 60, (err, data) => {
+                                            if (err) {
+                                                return console.log(err);
+                                            }
+                                        });
+                                    });
+                                    res.render('login', {
+                                        csrfToken: req.csrfToken(),
+                                        error: 'Wrong mail or password, please try again!'
+                                    });
+
+                                }
+
+                            })
+
+
+                        }
                     });
                 }
             });

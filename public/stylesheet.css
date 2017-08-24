@@ -27,9 +27,9 @@ h1, h2, h3, p {
     background-image: url("/images/spargel.jpg");
     background-size: cover;
     background-position-x: center;
-    /*background-position-y: center;*/
-    background-position-y: -180px;
-    background-attachment: fixed;
+    background-position-y: center;
+    /*background-position-y: -180px;
+    background-attachment: fixed;*/
 }
 
 .header-title {
