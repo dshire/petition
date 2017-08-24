@@ -1,22 +1,20 @@
-<header id="header">
-    <div class="header-cont">
-        <div class="header-title">
-            <h2>FOR A BETTER WORLD</h2>
-        </div>
+<div class="header-cont">
+    <div class="header-title">
+        <h2>FOR A BETTER WORLD</h2>
     </div>
-    <div class="title">
-        <img id="logo" src="/images/icon-asparagus.png" alt="symbol">
-        <h3>Petition for the Introduction of Asparagus Emoji</h3>
-        <a id="login" href="/login">Log in</a>
-    </div>
-</header>
+</div>
+<div class="title">
+    <img id="logo" src="/images/icon-asparagus.png" alt="symbol">
+    <h3>Petition for the Introduction of Asparagus Emoji</h3>
+    <a id="login" href="/login">Log in</a>
+</div>
 <div class="body-title">
     <h2>The World Needs Asparagus Emoji:<br/>Do Your Part and Join our Campaign!</h2>
 </div>
 <form action="/" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div class="form">
-        <input id="first" name="First" type="text" autofocus required>
+        <input id="first" name="First" type="text" required>
         <p>First Name</p>
     </div>
     <div class="form">
@@ -34,4 +32,4 @@
     <div id="error-message">{{error}}</div>
     <button type="submit">Sign Up</button>
 </form>
-<h2>Every voice counts!</h2>
+<h2 id="voice">Every Voice Counts!</h2>

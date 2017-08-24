@@ -27,7 +27,9 @@ h1, h2, h3, p {
     background-image: url("/images/spargel.jpg");
     background-size: cover;
     background-position-x: center;
-    background-position-y: center;
+    /*background-position-y: center;*/
+    background-position-y: -180px;
+    background-attachment: fixed;
 }
 
 .header-title {
@@ -39,6 +41,7 @@ h1, h2, h3, p {
 }
 
 .header-title h2 {
+    position: relative;
     color: white;
     /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
     line-height: 1.5em;
@@ -49,11 +52,15 @@ h1, h2, h3, p {
 }
 
 .title {
+    -webkit-position: sticky;
     position: sticky;
+    top: -1px;
     background-color: #98AC32;
+    z-index: 10000;
 }
 
 .title h3 {
+    position:relative;
     color: white;
     line-height: 1.5em;
     font-size: 2em;
@@ -63,10 +70,10 @@ h1, h2, h3, p {
 }
 
 #logo {
-    height: 100px;
+    height: 90px;
     position: absolute;
     left: 10px;
-    top: calc(50% - 50px);
+    top: calc(50% - 45px);
 }
 
 /*-----------------BODY------------------*/
@@ -125,17 +132,21 @@ button:hover {
 .form p {
     margin-top: 3px;
     font-size: 1.3rem;
+    font-family: 'proxima_nova_scosfthin';
 }
+
 .form input {
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
     width: 100%;
+    color: black;
 }
 
 
 #mapid {
     height: 70vh;
-    z-index: -10;
+
+    /*pointer-events: auto;*/
 }
 
 #login {
@@ -158,10 +169,33 @@ button:hover {
     background-color: #768626;
 }
 
+#voice {
+    margin-top: 10px;
+    font-size: 2rem;
+    font-family: 'proxima_nova_scosfthin';
+    margin-bottom: 50px;
+}
+
 /*---------------MOBILE----------------*/
 @media screen and (max-width: 500px) {
     html{
         font-size: 11px;
+    }
+
+    .header-title {
+        width: auto;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        padding-left: 50px;
+        padding-right: 8px;
+    }
+
+    .header-title h2 {
+        line-height: 1.5em;
+        text-align:right;
+        font-family: 'proxima_nova_ltthin';
+        padding-right: 30px;
+        font-size: 2.5rem;
     }
 
     .body-title {
@@ -169,4 +203,17 @@ button:hover {
         width: auto;
     }
 
+    .title h3 {
+        font-size: 2em;
+        margin: 0 50px 0 50px;
+        padding: 15px;
+    }
+
+    #logo {
+        height: 60px;
+        top: calc(50% - 30px);
+    }
 }
+
+/*background-attachment: fixed;*/
+/*pointer-events: none;*/

@@ -41,23 +41,23 @@ router.use(function cookieCheck(req, res, next) {
         res.redirect('/sign');
     } else if (req.session.user && req.session.user.sigId && req.url == '/sign') {
         res.redirect('/signed');
-    } else if (!req.session.user && (req.url == '/sign' || req.url == '/edit' || req.url == '/delete' || req.url == '/logout')) {
+    } else if (!req.session.user && (req.url == '/sign' || req.url == '/edit' || req.url == '/delete' || req.url == '/info' || req.url == '/logout')) {
         res.redirect('/');
     } else {
         next();
     }
 });
 
-// router.route('/')
-    // .all(csrfProtection)
+router.route('/')
+    .all(csrfProtection)
 
-router.get('/', csrfProtection, (req, res) => {
+.get((req, res) => {
     res.render('signup', {
         csrfToken: req.csrfToken()
     });
-});
+})
 
-router.post('/', csrfProtection, (req, res) => {
+.post((req, res) => {
     if (req.body.First.length > 0 && req.body.Last.length > 0 && req.body.mail.length > 0 && req.body.pass.length > 0) {
         bcrypt.hashPassword(req.body.pass).then(function(hash){
             return db.query(`INSERT INTO users (first, last, mail, pass) VALUES ($1, $2, $3, $4) RETURNING id`, [req.body.First, req.body.Last, req.body.mail, hash]);
