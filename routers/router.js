@@ -3,6 +3,14 @@ var express = require('express'),
 var cookieSession = require('cookie-session');
 const spicedPg = require('spiced-pg');
 
+var redis = require('redis');
+var client = redis.createClient({
+    host: 'localhost',
+    port: 6379
+});
+client.on('error', function(err) {
+    console.log(err);
+});
 
 var db;
 if (process.env.DATABASE_URL) {
@@ -11,6 +19,14 @@ if (process.env.DATABASE_URL) {
     const secrets = require('../secrets.json');
     db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
 }
+
+var delSignerCache = function(){
+    client.del('signerList', (err, data) => {
+        if (err) {
+            return console.log(err);
+        }
+    });
+};
 
 var sessionSecret;
 if (process.env.SESSION_SECRET) {
@@ -76,12 +92,14 @@ router.route('/')
                 });
             } else {
                 res.render('signup', {
+                    csrfToken: req.csrfToken(),
                     error: 'Oops, something went wrong. Please try again!'
                 });
             }
         });
     } else {
         res.render('signup', {
+            csrfToken: req.csrfToken(),
             error: 'Please fill out all fields!'
         });
     }
@@ -109,6 +127,7 @@ router.route('/info')
             req.body.age = null;
         }
         db.query(`INSERT INTO user_profiles (user_id, age, city, url) VALUES ($1, $2, $3, $4)`, [req.session.user.id, req.body.age, req.body.city, req.body.homepage]).then(function() {
+            delSignerCache();
             res.redirect('/sign');
         }).catch(function(err) {
             console.log(err);
@@ -148,12 +167,14 @@ router.route('/login')
                     });
                 } else {
                     res.render('login', {
+                        csrfToken: req.csrfToken(),
                         error: 'Wrong mail or password, please try again!',
                     });
                 }
             });
         } else {
             res.render('login', {
+                csrfToken: req.csrfToken(),
                 error: 'Please fill out both fields!',
             });
         }
@@ -174,6 +195,7 @@ router.route('/sign')
     .post((req, res) => {
         if (req.body.sig.length > 0) {
             db.query(`INSERT INTO signatures (user_id, signature) VALUES ($1, $2) RETURNING id`, [req.session.user.id, req.body.sig]).then(function(result) {
+                delSignerCache();
                 req.session.user.sigId = result.rows[0].id;
                 res.redirect('/signed');
             }).catch(function(err) {
@@ -182,6 +204,7 @@ router.route('/sign')
 
         } else {
             res.render('petition', {
+                csrfToken: req.csrfToken(),
                 error: 'Oops, something went wrong. Please try again!',
                 name: req.session.user.first + ' ' + req.session.user.last
             });
@@ -253,15 +276,34 @@ router.route('/signAgain')
 
 router.get('/signers', function (req, res) {
     if (req.session.user.sigId) {
-        db.query(`SELECT users.first AS first , users.last AS last, user_profiles.age, user_profiles.city, user_profiles.url
-        FROM signatures JOIN users ON users.id = signatures.user_id
-        JOIN user_profiles ON users.id = user_profiles.user_id`).then(function(result){
-            // console.log(result);
-            res.render('signers', {
-                signers: result.rows
-            });
-        }).catch(function(err) {
-            console.log(err);
+
+        client.get('signerList', function(err, data) {
+            if (err) {
+                return console.log(err);
+            }
+            if (data) {
+                res.render('signers', {
+                    signers: JSON.parse(data)
+                });
+                console.log('signers rendered from redis');
+            } else {
+                db.query(`SELECT users.first AS first , users.last AS last, user_profiles.age, user_profiles.city, user_profiles.url
+                FROM signatures JOIN users ON users.id = signatures.user_id
+                JOIN user_profiles ON users.id = user_profiles.user_id`).then(function(result){
+                    // console.log(result);
+                    client.set('signerList', JSON.stringify(result.rows), (err, data) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                    });
+                    console.log('signers rendered from psql');
+                    res.render('signers', {
+                        signers: result.rows
+                    });
+                }).catch(function(err) {
+                    console.log(err);
+                });
+            }
         });
     } else {
         res.redirect('/');
@@ -292,6 +334,7 @@ router.route('/edit')
     .get((req, res) => {
         db.query(`SELECT users.first, users.last, user_profiles.age, user_profiles.url, user_profiles.city, users.mail
             FROM user_profiles JOIN users ON users.id = user_profiles.user_id WHERE users.id = $1`, [req.session.user.id]).then(function(result){
+                delSignerCache();
                 res.render('edit', {
                     csrfToken: req.csrfToken(),
                     first:  result.rows[0].first,
@@ -326,6 +369,7 @@ router.route('/edit')
             db.query(`SELECT users.first, users.last, user_profiles.age, user_profiles.url, user_profiles.city, users.mail
                 FROM user_profiles JOIN users ON users.id = user_profiles.user_id WHERE users.id = $1`, [req.session.user.id]).then(function(result){
                     res.render('edit', {
+                        csrfToken: req.csrfToken(),
                         first:  result.rows[0].first,
                         last:  result.rows[0].last,
                         mail:  result.rows[0].mail,
