@@ -39,7 +39,7 @@ var csrfProtection = csrf();
 router.use(require('body-parser').urlencoded({
     extended: false
 }));
-router.use(require('cookie-parser')());
+
 
 
 router.use(function cookieCheck(req, res, next) {

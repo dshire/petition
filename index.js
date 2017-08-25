@@ -22,7 +22,7 @@ if (process.env.SESSION_SECRET) {
     const secrets = require('./secrets.json');
     sessionSecret = secrets.sessionSecret;
 }
-
+app.use(require('cookie-parser')());
 app.use(session({
     store: new Store({
         ttl: 3600,
