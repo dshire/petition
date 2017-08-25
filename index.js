@@ -12,6 +12,7 @@ app.set('view engine', 'handlebars');
 //     maxAge: 1000 * 60 * 60 * 24 * 14
 // }));
 
+router.use(require('cookie-parser')());
 var session = require('express-session'),
     Store = require('connect-redis')(session);
 
@@ -22,12 +23,13 @@ if (process.env.SESSION_SECRET) {
     const secrets = require('./secrets.json');
     sessionSecret = secrets.sessionSecret;
 }
-app.use(require('cookie-parser')());
+
 app.use(session({
     store: new Store({
-        ttl: 3600,
-        host: process.env.REDIS_URL || 'localhost',
-        port: 6379
+        url:process.env.REDIS_URL
+        // ttl: 3600,
+        // host: process.env.REDIS_URL || 'localhost',
+        // port: 6379
     }),
     resave: false,
     saveUninitialized: true,

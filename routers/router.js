@@ -4,12 +4,11 @@ var express = require('express'),
 const spicedPg = require('spiced-pg');
 
 var redis = require('redis');
-var client = redis.createClient(process.env.REDIS_URL
-//     {
-//     host: 'localhost',
-//     port: 6379
-// }
-);
+var client = redis.createClient(process.env.REDIS_URL ||
+    {
+        host: 'localhost',
+        port: 6379
+    });
 client.on('error', function(err) {
     console.log(err);
 });
@@ -39,7 +38,6 @@ var csrfProtection = csrf();
 router.use(require('body-parser').urlencoded({
     extended: false
 }));
-
 
 
 router.use(function cookieCheck(req, res, next) {
