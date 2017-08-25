@@ -1,11 +1,11 @@
 var express = require('express'),
     router = express.Router();
-var cookieSession = require('cookie-session');
+
 const spicedPg = require('spiced-pg');
 
 var redis = require('redis');
 var client = redis.createClient({
-    host: 'localhost',
+    host: process.env.REDIS_URL || 'localhost',
     port: 6379
 });
 client.on('error', function(err) {
@@ -28,13 +28,6 @@ var delSignerCache = function(){
     });
 };
 
-var sessionSecret;
-if (process.env.SESSION_SECRET) {
-    sessionSecret = process.env.SESSION_SECRET;
-} else {
-    const secrets = require('../secrets.json');
-    sessionSecret = secrets.sessionSecret;
-}
 
 const bcrypt = require('../bcrypt.js');
 
@@ -45,11 +38,6 @@ router.use(require('body-parser').urlencoded({
     extended: false
 }));
 router.use(require('cookie-parser')());
-
-router.use(cookieSession({
-    secret: sessionSecret,
-    maxAge: 1000 * 60 * 60 * 24 * 14
-}));
 
 
 router.use(function cookieCheck(req, res, next) {
@@ -430,7 +418,7 @@ router.get('/signers', function (req, res) {
                 res.render('signers', {
                     signers: JSON.parse(data)
                 });
-                console.log('signers rendered from redis');
+                // console.log('signers rendered from redis');
             } else {
                 db.query(`SELECT users.first AS first , users.last AS last, user_profiles.age, user_profiles.city, user_profiles.url
                 FROM signatures JOIN users ON users.id = signatures.user_id
@@ -441,7 +429,7 @@ router.get('/signers', function (req, res) {
                             return console.log(err);
                         }
                     });
-                    console.log('signers rendered from psql');
+                    // console.log('signers rendered from psql');
                     res.render('signers', {
                         signers: result.rows
                     });
@@ -536,8 +524,8 @@ router.get('/delete', (req,res) => {
 });
 
 router.get('/logout', (req, res) => {
-    req.session = null;
-    res.redirect('/');
+    req.session.destroy(res.redirect('/'));
+    // req.session = null;
 });
 
 router.get('*', function(req,res) {

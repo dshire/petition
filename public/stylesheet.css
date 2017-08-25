@@ -27,9 +27,8 @@ h1, h2, h3, p {
     background-image: url("/images/spargel.jpg");
     background-size: cover;
     background-position-x: center;
-    background-position-y: center;
-    /*background-position-y: -180px;
-    background-attachment: fixed;*/
+    background-position-y: -180px;
+    background-attachment: fixed;
 }
 
 .header-title {
@@ -55,16 +54,16 @@ h1, h2, h3, p {
     -webkit-position: sticky;
     position: sticky;
     top: -1px;
-    background-color: #98AC32;
+    background-color: #a4b937;
     z-index: 10000;
 }
 
 .title h3 {
-    position:relative;
+
     color: white;
     line-height: 1.5em;
     font-size: 2em;
-    margin: 0 120px 0 120px;
+    margin: auto 120px auto 120px;
     padding: 15px;
     font-family: 'proxima_nova_scosfthin';
 }
@@ -78,45 +77,91 @@ h1, h2, h3, p {
 
 /*-----------------BODY------------------*/
 
+h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
 h2 {
     font-size: 2.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .body-title {
-    margin: 50px 200px 20px 200px;
+    margin: 50px 200px 50px 200px;
     width: auto;
 }
 
+p {
+    font-size: 1.7rem;
+}
+
+#name, #name2 {
+    font-style: italic;
+    font-family: 'proxima_nova_ltthin';
+    margin: 10px 0 10px 0;
+    text-align: left;
+}
+
+#name {
+    display: inline-block;
+}
+
+#name-clear {
+    width: 300px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+#clear {
+    font-family: 'proxima_nova_scosfthin';
+    color: #a4b937;
+    background-color: white;
+    display: inline-block;
+    margin-top: 5px;
+    margin-right: 10px;
+    font-size: 1.5rem;
+    padding: 5px;
+    border: #a4b937 solid 1px;
+    border-radius: 5px;
+}
+
 canvas {
-    border: red dashed 2px;
-    /*position: fixed;*/
+    border: #a4b937 dashed 2px;
 }
 
 button {
     font-family: 'proxima_nova_ltthin';
-    background-color: #98AC32;
+    background-color: #a4b937;;
     color: white;
     border-style: none;
     border-radius: 5px;
-    font-size: 2rem;
+    font-size: 2.5rem;
     cursor: pointer;
-    padding: 8px;
+    padding: 10px;
     margin: 20px 0;
 }
 
-button:hover {
-    background-color: #768626;
+button:hover, #login:hover {
+    background-color: #8a9c2c;
 }
 
-#sig {
-    width: 500px;
-    height: 100px;
+button:focus {
+    outline:0;
 }
 
-#signed {
-    width: 500px;
-    height: 100px;
+#sig, #signed {
+    width: 320px;
+    height: 160px;
+    border: #a4b937 solid 1px;
+    border-radius: 10px;
+}
+
+
+#signature-field p {
+    margin-bottom: 5px;
+    font-size: 1.5rem;
 }
 
 .info-homepage p, a {
@@ -125,7 +170,7 @@ button:hover {
 
 .form {
     width: 150px;
-    text-align: left;
+
     margin-bottom: 10px;
 }
 
@@ -152,7 +197,7 @@ button:hover {
 #login {
     float: right;
     font-family: 'proxima_nova_ltthin';
-    background-color: #98AC32;
+    background-color: #a4b937;
     color: white;
     position: relative;
     bottom: 53px;
@@ -165,8 +210,22 @@ button:hover {
     text-decoration: none;
 }
 
-#login:hover {
-    background-color: #768626;
+#logout {
+    font-family: 'proxima_nova_scosfthin';
+    float:right;
+    color: #a4b937;
+    border-style: none;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    margin: 20px 30px;
+    text-decoration: none;
+    border: #a4b937 solid 1px;
+}
+
+#logout:hover, #clear:hover {
+    background-color: #f1f1f1;
 }
 
 #voice {
@@ -180,6 +239,16 @@ button:hover {
 @media screen and (max-width: 500px) {
     html{
         font-size: 11px;
+
+    }
+
+    *{
+        overflow-x: hidden;
+    }
+
+    .header-cont {
+        background-position-y: center;
+        background-attachment: scroll;
     }
 
     .header-title {
@@ -213,6 +282,10 @@ button:hover {
         height: 60px;
         top: calc(50% - 30px);
     }
+
+
+
+
 }
 
 /*background-attachment: fixed;*/

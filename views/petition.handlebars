@@ -1,17 +1,24 @@
 {{>header}}
-<h2>Why is there no Asparagus Emoji?</h2>
-<h1>Sign our petition!</h1>
-<p>We demand a new Emoji for Europe's favorite vegetable - Asparagus!</p>
+<a id="logout" href="/logout">Logout</a>
+<div class="body-title">
+    <h2>Why is there no Asparagus Emoji?</h2>
+    <h1>Sign our petition!</h1>
+    <p>We demand a new Emoji for Europe's favorite vegetable - Asparagus!</p>
+</div>
 <div id="error-message">{{error}}</div>
 <form action="/sign" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <div>
+    <div id="signature-field">
         <p>Sign here:</p>
-        <canvas id="sign-field" width="500" height="100"></canvas>
-        <p>{{name}}</p>
+        <canvas id="sign-field" width="320" height="160"></canvas>
+        <div id="name-clear">
+            <p id="name">{{name}}</p>
+            <button id="clear" type='button'>Clear</button>
+        </div>
         <input id="sig" name="sig" type="hidden">
     </div>
-    <button type="submit">SUBMIT</button>
+    <div class="submit">
+        <button type="submit">SUBMIT</button>
+    </div>
 </form>
-<a id="logout" href="/logout">Logout</a>
 <script src="script.js"></script>

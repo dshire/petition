@@ -48,7 +48,6 @@
     font-family: 'proxima_nova_scosfthin';
     src: url('Mark Simonson - Proxima Nova ScOsf Thin-webfont.eot');
     src: url('Mark Simonson - Proxima Nova ScOsf Thin-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Mark Simonson - Proxima Nova ScOsf Thin-webfont.woff2') format('woff2'),
          url('Mark Simonson - Proxima Nova ScOsf Thin-webfont.woff') format('woff'),
          url('Mark Simonson - Proxima Nova ScOsf Thin-webfont.ttf') format('truetype'),
          url('Mark Simonson - Proxima Nova ScOsf Thin-webfont.svg#proxima_nova_scosfthin') format('svg');

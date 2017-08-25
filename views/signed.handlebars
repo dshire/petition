@@ -1,10 +1,18 @@
 {{>header}}
-<h1>Thank you for signing!</h1>
-<p>Your signature:</p>
-<img id="signed" src="{{img}}">
-<p>{{name}}</p>
-<a id="link" href="/signAgain">Change signature</a>
-<a id="edit" href="/edit">Edit Profile</a>
-<a id="signers-link" href="/signers">&lt; See all {{numSig}} signers &gt;</a>
-<a id="logout" href="/delete">Unsign from Petition</a>
 <a id="logout" href="/logout">Logout</a>
+<div class="body-title">
+    <h1>Thank you for Signing!</h1>
+</div>
+<div class="">
+    <div class="">
+        <a id="link" href="/signAgain">Change signature</a>
+        <a id="edit" href="/edit">Edit Profile</a>
+        <a id="signers-link" href="/signers">&lt; See all {{numSig}} signers &gt;</a>
+        <a id="logout" href="/delete">Unsign from Petition</a>
+    </div>
+    <div id="signature-field">
+        <p>Your signature:</p>
+        <img id="signed" src="{{img}}">
+        <p id="name2">{{name}}</p>
+    </div>
+</div>

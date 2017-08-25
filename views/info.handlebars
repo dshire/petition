@@ -1,17 +1,19 @@
 {{>header}}
-<h2>Please tell us more about yourself!</h2>
+<div class="body-title">
+    <h2>Please tell us more about yourself!</h2>
+</div>
 <form action="/info" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <div>
-        <input id="age" name="age" type="text" autofocus placeholder="your age (optional)">
+    <div class="form">
+        <input id="age" name="age" type="text">
         <p>Age</p>
     </div>
-    <div>
-        <input id="city" name="city" type="text" placeholder="your city (optional)">
+    <div class="form">
+        <input id="city" name="city" type="text">
         <p>City</p>
     </div>
-    <div>
-        <input id="homepage" name="homepage" type="text" placeholder="homepage (optional)">
+    <div class="form">
+        <input id="homepage" name="homepage" type="text">
         <p>Homepage</p>
     </div>
     <button type="submit">CONTINUE</button>
