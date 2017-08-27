@@ -97,7 +97,7 @@ router.route('/')
 
 router.get('/welcome', (req, res) => {
     res.render('welcome', {
-        layout: 'welcome-main'
+        layout: 'map-main'
     });
 });
 
@@ -135,9 +135,9 @@ router.route('/login')
 
     .post((req, res) => {
         if (req.body.mail.length > 0 && req.body.pass.length > 0) {
-            var results;
+            var userInfo;
             return db.query(`SELECT * FROM users WHERE mail = $1`, [req.body.mail]).then(function(result){
-                results = result;
+                userInfo = result;
                 return bcrypt.checkPassword(req.body.pass, result.rows[0].pass);
             }).then(function(correctPass) {
                 if (correctPass) {
@@ -173,13 +173,12 @@ router.route('/login')
                                 }
                             });
                             req.session.user = {
-                                id: results.rows[0].id,
-                                first: results.rows[0].first,
-                                last: results.rows[0].last
+                                id: userInfo.rows[0].id,
+                                first: userInfo.rows[0].first,
+                                last: userInfo.rows[0].last
                             };
-                            db.query(`SELECT signature, id FROM signatures WHERE user_id = $1`, [results.rows[0].id]).then(function(result){
-
-                                if (result.rows[0].signature && result.rows[0].signature.length > 0) {
+                            db.query(`SELECT signature, id FROM signatures WHERE user_id = $1`, [userInfo.rows[0].id]).then(function(result){
+                                if (result.rows[0] && result.rows[0].signature && result.rows[0].signature.length > 0) {
                                     req.session.user.sigId = result.rows[0].id;
                                     res.redirect('/signed');
                                 } else { res.redirect('/sign');}
@@ -298,12 +297,18 @@ router.route('/login')
 
                                 }
 
-                            })
+                            });
 
 
                         }
                     });
                 }
+            }).catch(function(err) {
+                console.log(err);
+                res.render('login', {
+                    csrfToken: req.csrfToken(),
+                    error: 'Wrong mail or password, please try again!'
+                });
             });
         } else {
             res.render('login', {
@@ -416,6 +421,7 @@ router.get('/signers', function (req, res) {
             }
             if (data) {
                 res.render('signers', {
+                    layout: 'signer-main',
                     signers: JSON.parse(data)
                 });
                 // console.log('signers rendered from redis');
@@ -431,6 +437,7 @@ router.get('/signers', function (req, res) {
                     });
                     // console.log('signers rendered from psql');
                     res.render('signers', {
+                        layout: 'map-main',
                         signers: result.rows
                     });
                 }).catch(function(err) {
@@ -449,6 +456,7 @@ router.get('/cities/:city', (req,res) => {
         FROM signatures JOIN users ON users.id = signatures.user_id
         JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_profiles.city = $1`, [req.params.city]).then(function(result) {
             res.render ('city', {
+                layout: 'signer-main',
                 city: req.params.city,
                 signers: result.rows
             });

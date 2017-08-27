@@ -80,15 +80,22 @@ h1, h2, h3, p {
 h1 {
     font-size: 3rem;
     margin-bottom: 20px;
+    min-width: 150px;
 }
 
 h2 {
     font-size: 2.5rem;
     margin-bottom: 20px;
+    min-width: 300px;
 }
 
 .body-title {
     margin: 50px 200px 50px 200px;
+    width: auto;
+}
+
+.signer-title {
+    margin: 50px 150px 50px 150px;
     width: auto;
 }
 
@@ -105,6 +112,27 @@ p {
 
 #name {
     display: inline-block;
+}
+
+.signers{
+    font-size: 1.7rem;
+    font-style: italic;
+    font-family: 'proxima_nova_ltsemibold';
+    margin: 10px 0 10px 0;
+}
+
+.signers-part {
+    font-size: 1.7rem;
+    font-style: italic;
+    font-family: 'proxima_nova_ltsemibold';
+}
+
+.signer-container {
+    margin: 10px 25px;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #name-clear {
@@ -127,28 +155,77 @@ p {
     border-radius: 5px;
 }
 
-canvas {
+#sign-field {
     border: #a4b937 dashed 2px;
 }
 
-button {
+button, .button {
     font-family: 'proxima_nova_ltthin';
-    background-color: #a4b937;;
+    background-color: #a4b937;
     color: white;
     border-style: none;
     border-radius: 5px;
     font-size: 2.5rem;
     cursor: pointer;
     padding: 10px;
-    margin: 20px 0;
+    margin: 20px;
+    text-decoration: none;
 }
 
-button:hover, #login:hover {
+.button {
+    font-size:1.8rem;
+    display: block;
+}
+
+#keep {
+    max-width:150px;
+    margin: 20px auto;
+}
+
+button:hover, #login:hover, .button:hover {
     background-color: #8a9c2c;
+    cursor: pointer;
 }
 
 button:focus {
     outline:0;
+}
+
+
+#signers-link {
+    cursor: pointer;
+    padding: 10px;
+    margin: 60px auto;
+    font-size: 3rem;
+    max-width: 280px;
+    border-radius: 10px;
+    font-family: 'proxima_nova_ltsemibold';
+    background-color: white;
+    color: #a4b937;
+    border: #a4b937 solid 1px;
+}
+
+.signed-display {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+    max-width: 700px;
+
+}
+
+#sign-again {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 900px;
+}
+
+.nav-select {
+
 }
 
 #sig, #signed {
@@ -158,19 +235,36 @@ button:focus {
     border-radius: 10px;
 }
 
+.signature-field {
+    padding: 0 15px;
+}
 
-#signature-field p {
+#old-sig {
+    margin-bottom: 30px;
+}
+
+.signature-field p {
     margin-bottom: 5px;
     font-size: 1.5rem;
 }
 
-.info-homepage p, a {
+.info-box p, a {
+    color: #a4b937;
     display:inline-block;
+}
+
+.info-box {
+    /*overflow: hidden;*/
+    border-radius: 5px;
+    font-size: 1.5rem;
+    padding: 0 8px;
+    margin: 5px 5px;
+    border: #a4b937 solid 1px;
 }
 
 .form {
     width: 150px;
-
+    text-align: left;
     margin-bottom: 10px;
 }
 
@@ -188,29 +282,9 @@ button:focus {
 }
 
 
-#mapid {
-    height: 70vh;
 
-    /*pointer-events: auto;*/
-}
 
-#login {
-    float: right;
-    font-family: 'proxima_nova_ltthin';
-    background-color: #a4b937;
-    color: white;
-    position: relative;
-    bottom: 53px;
-    border: solid white 0.5px;
-    border-radius: 5px;
-    font-size: 1.3rem;
-    cursor: pointer;
-    padding: 3px 5px;
-    margin: 10px 20px 10px 0;
-    text-decoration: none;
-}
-
-#logout {
+#logout, #login {
     font-family: 'proxima_nova_scosfthin';
     float:right;
     color: #a4b937;
@@ -224,8 +298,8 @@ button:focus {
     border: #a4b937 solid 1px;
 }
 
-#logout:hover, #clear:hover {
-    background-color: #f1f1f1;
+#logout:hover, #clear:hover, #signers-link:hover, .info-box:hover  {
+    background-color: #e3e0e0;
 }
 
 #voice {
@@ -235,6 +309,36 @@ button:focus {
     margin-bottom: 50px;
 }
 
+#error-message {
+    font-size: 2rem;
+    margin: 20px 0;
+}
+
+#mapid {
+    height: 70vh;
+
+    /*pointer-events: auto;*/
+}
+
+#signerMap{
+    height: 50vh;
+    margin: 5px 100px 30px 100px;
+    min-width: 60vw;
+    border: #a4b937 solid 1px;
+}
+
+.info-window {
+    border: #a4b937 solid 1px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.info-window * {
+    color: #a4b937;
+    font-style: normal;
+    font-size: 1.5rem;
+}
+
 /*---------------MOBILE----------------*/
 @media screen and (max-width: 500px) {
     html{
@@ -242,9 +346,9 @@ button:focus {
 
     }
 
-    *{
+    /**{
         overflow-x: hidden;
-    }
+    }*/
 
     .header-cont {
         background-position-y: center;
@@ -274,8 +378,8 @@ button:focus {
 
     .title h3 {
         font-size: 2em;
-        margin: 0 50px 0 50px;
-        padding: 15px;
+        margin: 0 25px 0 75px;
+        padding: 10px 0;
     }
 
     #logo {
@@ -283,10 +387,14 @@ button:focus {
         top: calc(50% - 30px);
     }
 
+    .signer-title {
+        margin: 30px 30px 20px 30px;
+        width: auto;
+    }
 
-
+    .signer-container {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
 }
-
-/*background-attachment: fixed;*/
-/*pointer-events: none;*/

@@ -23,14 +23,21 @@ if (process.env.SESSION_SECRET) {
     const secrets = require('./secrets.json');
     sessionSecret = secrets.sessionSecret;
 }
+var store = {};
+if(process.env.REDIS_URL){
+    store = {
+        url: process.env.REDIS_URL
+    };
+} else {
+    store = {
+        ttl: 3600,
+        host: 'localhost',
+        port: 6379
+    };
+}
 
 app.use(session({
-    store: new Store({
-        url:process.env.REDIS_URL
-        // ttl: 3600,
-        // host: process.env.REDIS_URL || 'localhost',
-        // port: 6379
-    }),
+    store: new Store(store),
     resave: false,
     saveUninitialized: true,
     secret: sessionSecret

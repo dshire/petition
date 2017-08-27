@@ -1,18 +1,20 @@
 {{>header}}
-<a id="logout" href="/logout">Logout</a>
 <div class="body-title">
     <h1>Thank you for Signing!</h1>
 </div>
-<div class="">
-    <div class="">
-        <a id="link" href="/signAgain">Change signature</a>
-        <a id="edit" href="/edit">Edit Profile</a>
-        <a id="signers-link" href="/signers">&lt; See all {{numSig}} signers &gt;</a>
-        <a id="logout" href="/delete">Unsign from Petition</a>
+<div class="signed-display">
+    <div class="nav-select">
+        <a class="button" id="link" href="/signAgain">Change Signature</a>
+        <a class="button" id="edit" href="/edit">Edit Profile</a>
+        <a class="button" href="/delete">Unsign from Petition</a>
     </div>
-    <div id="signature-field">
-        <p>Your signature:</p>
+    <div class="signature-field">
+        <p>Your Signature:</p>
         <img id="signed" src="{{img}}">
-        <p id="name2">{{name}}</p>
+        <div id="name-clear">
+            <p id="name2">{{name}}</p>
+        </div>
     </div>
 </div>
+    <a class="button" id="signers-link" href="/signers">See all {{numSig}} Signers</a>
+    <a id="logout" href="/logout">Logout</a>

@@ -1,5 +1,4 @@
 {{>header}}
-<a id="logout" href="/logout">Logout</a>
 <div class="body-title">
     <h2>Why is there no Asparagus Emoji?</h2>
     <h1>Sign our petition!</h1>
@@ -8,7 +7,7 @@
 <div id="error-message">{{error}}</div>
 <form action="/sign" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <div id="signature-field">
+    <div class="signature-field">
         <p>Sign here:</p>
         <canvas id="sign-field" width="320" height="160"></canvas>
         <div id="name-clear">
@@ -21,4 +20,5 @@
         <button type="submit">SUBMIT</button>
     </div>
 </form>
+<a id="logout" href="/logout">Logout</a>
 <script src="script.js"></script>

@@ -1,15 +1,22 @@
 {{>header}}
-<h3>We the undersigned citizens of {{city}} demand an asparagus emoji to fill the void we feel within us whenever we write text messages.</h3>
-<div>
+<div class="signer-title">
+    <h2>We the undersigned citizens of {{city}} demand an asparagus emoji to fill the void we feel within us whenever we write text messages.</h2>
+</div>
+<div class="">
+    <p id="map-text">{{city}}:</p>
+    <div id="signerMap"></div>
+</div>
+<div class="signer-container">
     {{#each signers}}
         {{#if this.url}}
-            <div class=info-homepage>
-                <a href="//{{this.url}}">{{this.first}} {{this.last}}</a><p>{{#if this.age}} ({{this.age}}){{/if}}</p>
+            <div class=info-box>
+                <a class="signers" href="//{{this.url}}">{{this.first}} {{this.last}}</a><p class="signers">{{#if this.age}} ({{this.age}}){{/if}}</p>
             </div>
         {{else}}
-            <p>{{this.first}} {{this.last}}{{#if this.age}} ({{this.age}}){{/if}}
-            </p>
+            <div class=info-box>
+                <p class="signers">{{this.first}} {{this.last}}{{#if this.age}} ({{this.age}}){{/if}}</p>
+            </div>
         {{/if}}
     {{/each}}
 </div>
-<a href="javascript:history.back()">Go Back</a>
+<a class="button" id="keep" href="javascript:history.back()">Go Back</a>

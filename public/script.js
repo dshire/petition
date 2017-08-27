@@ -42,11 +42,11 @@ function touchPosition(e){
 can.addEventListener('touchstart', function(e){
     e.preventDefault();
     touchPosition(e);
-    console.log(x, y);
+    // console.log(x, y);
 });
 can.addEventListener('touchmove', function(e){
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
     ctx.beginPath();
 
     ctx.lineWidth = 3;

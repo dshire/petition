@@ -1,35 +1,37 @@
 {{>header}}
-<h2>Edit your profile</h2>
+<div class="body-title">
+    <h2>Edit your profile</h2>
+</div>
 <form action="/edit" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <div>
-        <input id="first" name="First" type="text" value="{{first}}" placeholder="your first name" required>
+    <div class="form">
+        <input id="first" name="First" type="text" value="{{first}}" required>
         <p>First Name</p>
     </div>
-    <div>
-        <input id="last" name="Last" type="text" value="{{last}}" placeholder="your last name" required>
+    <div class="form">
+        <input id="last" name="Last" type="text" value="{{last}}" required>
         <p>Last Name</p>
     </div>
-    <div>
-        <input id="mail" name="mail" type="text" value="{{mail}}" placeholder="your email" required>
+    <div class="form">
+        <input id="mail" name="mail" type="text" value="{{mail}}" required>
         <p>Email Address</p>
     </div>
-    <div>
-        <input id="pass" name="pass" type="password" placeholder="new password (optional)">
-        <p>Password</p>
+    <div class="form">
+        <input id="pass" name="pass" type="password">
+        <p>New Password</p>
     </div>
-    <div>
-        <input id="age" name="age" type="text" value="{{age}}" placeholder="your age (optional)">
+    <div class="form">
+        <input id="age" name="age" type="text" value="{{age}}" >
         <p>Age</p>
     </div>
-    <div>
-        <input id="city" name="city" type="text" value="{{city}}" placeholder="your city (optional)">
+    <div class="form">
+        <input id="city" name="city" type="text" value="{{city}}" >
         <p>City</p>
     </div>
-    <div>
-        <input id="homepage" name="homepage" type="text" value="{{homepage}}" placeholder="homepage (optional)">
+    <div class="form">
+        <input id="homepage" name="homepage" type="text" value="{{homepage}}">
         <p>Homepage</p>
     </div>
+    <div id="error-message">{{error}}</div>
     <button type="submit">UPDATE</button>
 </form>
-<div id="error-message">{{error}}</div>

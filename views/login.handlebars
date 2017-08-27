@@ -1,18 +1,20 @@
 {{>header}}
-<h1>Please log in</h1>
+<div class="body-title">
+    <h1>Please log in</h1>
+</div>
 <form action="/login" method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <div>
-        <input id="mail" name="mail" type="text" autofocus required {{#if block}}disabled{{/if}}>
+    <div class="form">
+        <input id="mail" name="mail" type="text" required {{#if block}}disabled{{/if}}>
         <p>Email Address</p>
     </div>
-    <div>
+    <div class="form">
         <input id="pass" name="pass" type="password" required {{#if block}}disabled{{/if}}>
         <p>Password</p>
     </div>
+    <div id="error-message">{{error}}</div>
     <button type="submit" {{#if block}}disabled{{/if}}>LOG IN</button>
 </form>
-<div id="error-message">{{error}}</div>
 
 {{#if block}}
 <script>

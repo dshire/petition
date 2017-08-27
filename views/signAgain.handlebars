@@ -1,19 +1,27 @@
 {{>header}}
-<h1>Thank you for signing!</h1>
-<p>Your old signature:</p>
-<img id="signed" src="{{img}}">
-<a id="link" href="/signers">&lt; Keep signature and see all {{numSig}} signers &gt;</a>
-
-<form action="/signAgain" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input id="sig" name="sig" type="hidden">
-    <div>
-        <p>Sign here:</p>
-        <canvas id="sign-field" width="320" height="160"></canvas>
-        <button id="clear" type='button'>CLEAR</button>
-        <p>{{name}}</p>
-    </div>    
-    <button type="submit">SUBMIT</button>
-</form>
+<div class="body-title">
+    <h1>Thank you for Signing!</h1>
+    <h2>You can change your Signature here:</h2>
+</div>
+<div id="sign-again">
+    <div class="signature-field" id="old-sig">
+        <p>Your old Signature:</p>
+        <img id="signed" src="{{img}}">
+        <a class="button" id="keep" href="/signed">Keep Signature</a>
+    </div>
+    <form action="/signAgain" method="POST">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <input id="sig" name="sig" type="hidden">
+        <div class="signature-field">
+            <p>Sign here:</p>
+            <canvas id="sign-field" width="320" height="160"></canvas>
+            <div id="name-clear">
+                <p id="name">{{name}}</p>
+                <button id="clear" type='button'>CLEAR</button>
+            </div>
+        </div>
+        <button type="submit">SUBMIT</button>
+    </form>
+</div>
 <a id="logout" href="/logout">Logout</a>
 <script src="script.js"></script>
