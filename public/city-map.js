@@ -1,8 +1,7 @@
-var city = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
-var geocoder;
-var map;
-
 function initMap() {
+    var city = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+    var geocoder;
+    var map;
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(48.5166, 10.45898);
     var mapOptions = {

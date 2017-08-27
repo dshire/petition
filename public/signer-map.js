@@ -45,7 +45,6 @@ function initMap() {
     });
 }
 
-console.log(cities);
 
 function unique(list) {
     var result = [];
