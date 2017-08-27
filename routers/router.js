@@ -41,7 +41,7 @@ router.use(require('body-parser').urlencoded({
 
 
 router.use(function cookieCheck(req, res, next) {
-    if (req.session.user && (req.url == '/' || req.url == "/login")) {
+    if (req.session.user && (req.url == '/' || req.url == "/login" || req.url == "/enter")) {
         res.redirect('/sign');
     } else if (req.session.user && req.session.user.sigId && req.url == '/sign') {
         res.redirect('/signed');
@@ -52,7 +52,7 @@ router.use(function cookieCheck(req, res, next) {
     }
 });
 
-router.route('/')
+router.route('/enter')
     .all(csrfProtection)
 
 .get((req, res) => {
@@ -95,7 +95,7 @@ router.route('/')
 ;
 
 
-router.get('/welcome', (req, res) => {
+router.get('/', (req, res) => {
     res.render('welcome', {
         layout: 'map-main'
     });
@@ -456,7 +456,7 @@ router.get('/cities/:city', (req,res) => {
         FROM signatures JOIN users ON users.id = signatures.user_id
         JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_profiles.city = $1`, [req.params.city]).then(function(result) {
             res.render ('city', {
-                layout: 'signer-main',
+                layout: 'city-main',
                 city: req.params.city,
                 signers: result.rows
             });

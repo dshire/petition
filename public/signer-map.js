@@ -3,7 +3,7 @@ $('.cities').each(function() {
     cities.push($(this).html());
 });
 cities = unique(cities);
-var list = ['London', 'Berlin']
+
 var gMarkers = [];
 var geocoder;
 var map;
@@ -20,7 +20,7 @@ function initMap() {
     bounds = new google.maps.LatLngBounds();
 
     var markersDone = 0;
-    list.forEach(function(city) {
+    cities.forEach(function(city) {
         geocoder.geocode({
             'address': city
         }, function(results, status) {
@@ -35,7 +35,7 @@ function initMap() {
                 loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
                 bounds.extend(loc);
                 markersDone++;
-                if (markersDone === list.length) {
+                if (markersDone === cities.length) {
                     setCenter();
                 }
             } else {

@@ -42,7 +42,6 @@ h1, h2, h3, p {
 .header-title h2 {
     position: relative;
     color: white;
-    /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
     line-height: 1.5em;
     text-align:right;
     font-family: 'proxima_nova_ltthin';
@@ -87,6 +86,37 @@ h2 {
     font-size: 2.5rem;
     margin-bottom: 20px;
     min-width: 300px;
+}
+
+.body-title h2 {
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.body-title h3 {
+    font-size: 2rem;
+    margin: 80px auto;
+    min-width: 300px;
+    max-width: 600px;
+}
+
+.welcome-body h2 {
+    margin: 20px auto;
+    padding: 0 30px;
+    max-width: 800px;
+}
+
+.mockup {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.mockup p {
+    max-width: 150px;
+    margin: auto 30px;
 }
 
 .body-title {
@@ -177,9 +207,15 @@ button, .button {
     display: block;
 }
 
-#keep {
+#keep, #enter {
     max-width:150px;
     margin: 20px auto;
+}
+
+#enter {
+    margin-top: 40px;
+    font-size: 4rem;
+    font-family: 'proxima_nova_altbold';
 }
 
 button:hover, #login:hover, .button:hover {
@@ -233,6 +269,30 @@ button:focus {
     height: 160px;
     border: #a4b937 solid 1px;
     border-radius: 10px;
+}
+
+#emoji {
+    height: 200px;
+    margin: 30px;
+}
+
+#emoji-spec {
+    height: 100px;
+
+    margin-top: 50px;
+    margin-bottom: 100px;
+    margin-right: auto;
+    margin-left: calc(50% - 44px);
+    display:block;
+}
+
+#emoji-spec:hover {
+    height: 200px;
+    border: #a4b937 solid 1px;
+    margin-top: -50px;
+    margin-bottom: 100px;
+    margin-right: auto;
+    margin-left: calc(50% - 180px);
 }
 
 .signature-field {
@@ -322,6 +382,13 @@ button:focus {
 
 #signerMap{
     height: 50vh;
+    margin: 5px 80px 30px 80px;
+    min-width: 60vw;
+    border: #a4b937 solid 1px;
+}
+
+#aspMap {
+    height: 70vh;
     margin: 5px 100px 30px 100px;
     min-width: 60vw;
     border: #a4b937 solid 1px;
@@ -392,9 +459,22 @@ button:focus {
         width: auto;
     }
 
+    .signer-title h2 {
+        font-size: 2rem;
+    }
+
     .signer-container {
         margin-left: 0;
         margin-right: 0;
+    }
+
+
+
+    #signerMap, #aspMap{
+        height: 50vh;
+        margin: 5px 10px 30px 10px;
+        min-width: 60vw;
+        border: #a4b937 solid 1px;
     }
 
 }

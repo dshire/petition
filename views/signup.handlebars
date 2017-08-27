@@ -1,16 +1,8 @@
-<div class="header-cont">
-    <div class="header-title">
-        <h2>FOR A BETTER WORLD</h2>
-    </div>
-</div>
-<div class="title">
-    <img id="logo" src="/images/icon-asparagus.png" alt="symbol">
-    <h3>Petition for the Introduction of Asparagus Emoji</h3>
-</div>
+{{>header}}
 <div class="body-title">
     <h2>The World Needs Asparagus Emoji:<br/>Do Your Part and Join our Campaign!</h2>
 </div>
-<form action="/" method="POST" autocomplete="off">
+<form action="/enter" method="POST" autocomplete="off">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div class="form">
         <input id="first" name="First" type="text" required>
