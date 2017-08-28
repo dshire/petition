@@ -1,15 +1,17 @@
-var cities = [];
-$('.cities').each(function() {
-    cities.push($(this).html());
-});
-cities = unique(cities);
-
-var gMarkers = [];
-var geocoder;
-var map;
-var bounds;
-
 function initMap() {
+
+    var cities = [];
+    $('.cities').each(function() {
+        cities.push($(this).html());
+    });
+    cities = unique(cities);
+
+    var gMarkers = [];
+    var geocoder;
+    var map;
+    var bounds;
+
+
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(48.5166, 10.45898);
     var mapOptions = {
@@ -43,47 +45,48 @@ function initMap() {
             }
         });
     });
-}
 
-
-function unique(list) {
-    var result = [];
-    $.each(list, function(i, e) {
-        if ($.inArray(e, result) == -1) result.push(e);
-    });
-    return result;
-}
-
-function setCenter() {
-    map.fitBounds(bounds);
-    map.panToBounds(bounds);
-}
-
-var lastInfo;
-$('.info-box').click(event, function() {
-    var city = $(event.currentTarget).find('.cities').html();
-    var html = $(event.currentTarget).html();
-    gMarkers.forEach(function(e) {
-        if (e.title == city) {
-            closeInfoWindow();
-            var infowindow = new google.maps.InfoWindow({
-                content: '<div class="info-window">' + html + '</div>'
-            });
-
-            e.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function() {
-                e.setAnimation(null);
-            }, 750);
-
-            infowindow.open(map, e);
-            lastInfo = infowindow;
-        }
-    });
-
-});
-
-function closeInfoWindow() {
-    if (lastInfo) {
-        lastInfo.close();
+    function unique(list) {
+        var result = [];
+        $.each(list, function(i, e) {
+            if ($.inArray(e, result) == -1) result.push(e);
+        });
+        return result;
     }
+
+    function setCenter() {
+        map.fitBounds(bounds);
+        map.panToBounds(bounds);
+    }
+
+    var lastInfo;
+    $('.info-box').click(event, function() {
+        var city = $(event.currentTarget).find('.cities').html();
+        var html = $(event.currentTarget).html();
+        gMarkers.forEach(function(e) {
+            if (e.title == city) {
+                closeInfoWindow();
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<div class="info-window">' + html + '</div>'
+                });
+
+                e.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function() {
+                    e.setAnimation(null);
+                }, 750);
+
+                infowindow.open(map, e);
+                lastInfo = infowindow;
+            }
+        });
+
+    });
+
+    function closeInfoWindow() {
+        if (lastInfo) {
+            lastInfo.close();
+        }
+    }
+
+
 }
