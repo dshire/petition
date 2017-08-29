@@ -437,7 +437,7 @@ router.get('/signers', function (req, res) {
                     });
                     // console.log('signers rendered from psql');
                     res.render('signers', {
-                        layout: 'map-main',
+                        layout: 'signer-main',
                         signers: result.rows
                     });
                 }).catch(function(err) {
