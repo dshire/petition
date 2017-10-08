@@ -11,11 +11,8 @@
         iconSize: [60,40]
     });
 
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-        maxZoom: 18,
-        id: 'mapbox.streets-satellite',
-        accessToken: 'pk.eyJ1IjoiZHNoaXJlIiwiYSI6ImNqNm5vbXNheTBhbnEycXBieWhwNmw2ZTEifQ.Xsuz8-0E3C7AclNDX02AoQ'
-        // accessToken: secrets.mapToken
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
     }).addTo(mymap);
 
     var germany = L.circle([50.89921, 10.2832], {
