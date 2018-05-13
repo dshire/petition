@@ -165,21 +165,17 @@ router.get('/signers', function (req, res) {
 });
 
 router.get('/cities/:city', (req,res) => {
-    if (req.session.user.sigId) {
-        db.query(`SELECT users.first AS first, users.last AS last
-        FROM signatures JOIN users ON users.id = signatures.user_id
-        JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_profiles.city = $1`, [req.params.city]).then(function(result) {
-            res.render ('city', {
-                layout: 'city-main',
-                city: req.params.city,
-                signers: result.rows
-            });
-        }).catch(function(err) {
-            console.log(err);
+    db.query(`SELECT users.first AS first, users.last AS last
+    FROM signatures JOIN users ON users.id = signatures.user_id
+    JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_profiles.city = $1`, [req.params.city]).then(function(result) {
+        res.render ('city', {
+            layout: 'city-main',
+            city: req.params.city,
+            signers: result.rows
         });
-    } else {
-        res.redirect('/');
-    }
+    }).catch(function(err) {
+        console.log(err);
+    });
 });
 //
 // router.route('/edit')
