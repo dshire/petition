@@ -1,27 +1,39 @@
 {{>header}}
 <div class="body-title">
-    <h2>The World Needs Asparagus Emoji:<br/>Do Your Part and Join our Campaign!</h2>
+    <h2>Hast Du Dich je gefragt, warum es Emoji für Gemüse wie Aubergine, Mais oder sogar Brokkoli gibt, aber nicht für Spargel?</h2>
 </div>
-<form action="/enter" method="POST" autocomplete="off">
+<div class="welcome-body">
+    <h2>Die Welt braucht Spargel Emoji - in Grün und Weiß!</h2>
+    <h2>Join the Movement und zeichne die Petition!</h2>
+</div>
+<form action="/" method="POST" autocomplete="off">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div class="form">
-        <input id="first" name="First" type="text" required>
-        <p>First Name</p>
+        <input id="first" name="First" type="text">
+        <p>Vorname</p>
     </div>
     <div class="form">
-        <input id="last" name="Last" type="text" required>
-        <p>Last Name</p>
+        <input id="last" name="Last" type="text">
+        <p>Nachname</p>
     </div>
     <div class="form">
-        <input id="mail" name="mail" type="text" required>
-        <p>Email Address</p>
-    </div>
-    <div class="form">
-        <input id="pass" name="pass" type="password" required>
-        <p>Password</p>
+        <input id="city" name="city" type="text">
+        <p>City</p>
     </div>
     <div id="error-message">{{error}}</div>
-    <button type="submit">Sign Up</button>
+    <div class="signature-field">
+        <p>Unterschrift:</p>
+        <canvas id="sign-field" width="320" height="160"></canvas>
+        <div id="name-clear">
+            <p id="name">{{name}}</p>
+            <button id="clear" type='button'>Clear</button>
+        </div>
+        <input id="sig" name="sig" type="hidden">
+    </div>
+    <button type="submit">ABSCHICKEN</button>
 </form>
-<h2 id="voice">Every Voice Counts!</h2>
-<a id="login" href="/login">Log in</a>
+<h2 id="voice">Jede Stimme zählt!</h2>
+<h2 id="num-sig">Bisherige Unterstützer: {{numSig}}</h2>
+<h2>Official Kickoff Event 26.05.2018 Berlin</h2>
+<img id="spargelfest-img" src="/images/spargelfest.png" alt="Xiroi Spargelfest">
+<script src="script.js"></script>

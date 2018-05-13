@@ -64,7 +64,7 @@ h1, h2, h3, p {
     font-size: 2em;
     margin: auto 120px auto 120px;
     padding: 15px;
-    font-family: 'proxima_nova_scosfthin';
+    font-family: 'proxima_nova_ltthin';
 }
 
 #logo {
@@ -101,7 +101,7 @@ h2 {
 }
 
 .welcome-body h2 {
-    margin: 20px auto;
+    margin: 20px auto 50px;
     padding: 0 30px;
     max-width: 800px;
 }
@@ -366,7 +366,19 @@ button:focus {
     margin-top: 10px;
     font-size: 2rem;
     font-family: 'proxima_nova_scosfthin';
+}
+
+#num-sig {
+    margin-top: 20px;
     margin-bottom: 50px;
+    font-size: 2rem;
+    font-family: 'proxima_nova_scosfthin';
+}
+
+#spargelfest-img {
+    width: 600px;
+    max-width: 100vw;
+    min-width: 200px;
 }
 
 #error-message {
