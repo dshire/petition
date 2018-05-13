@@ -50,7 +50,7 @@ h1, h2, h3, p {
 }
 
 .title {
-    -webkit-position: sticky;
+    /* -webkit-position: sticky; */
     position: sticky;
     top: -1px;
     background-color: #a4b937;
@@ -61,10 +61,10 @@ h1, h2, h3, p {
 
     color: white;
     line-height: 1.5em;
-    font-size: 2em;
+    font-size: 4.5em;
     margin: auto 120px auto 120px;
     padding: 15px;
-    font-family: 'proxima_nova_ltthin';
+    /* font-family: 'proxima_nova_ltthin'; */
 }
 
 #logo {
@@ -323,7 +323,7 @@ button:focus {
 }
 
 .form {
-    width: 150px;
+    width: 250px;
     text-align: left;
     margin-bottom: 10px;
 }
@@ -331,7 +331,7 @@ button:focus {
 .form p {
     margin-top: 3px;
     font-size: 1.3rem;
-    font-family: 'proxima_nova_scosfthin';
+    /* font-family: 'proxima_nova_scosfthin'; */
 }
 
 .form input {
@@ -365,14 +365,23 @@ button:focus {
 #voice {
     margin-top: 10px;
     font-size: 2rem;
-    font-family: 'proxima_nova_scosfthin';
+    /* font-family: 'proxima_nova_scosfthin'; */
 }
 
 #num-sig {
     margin-top: 20px;
     margin-bottom: 50px;
     font-size: 2rem;
-    font-family: 'proxima_nova_scosfthin';
+    /* font-family: 'proxima_nova_scosfthin'; */
+}
+
+#xiroi-link {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    min-width: 300px;
+    font-family:'Proxima Nova', sans-serif;
+    color: green;
+    text-decoration: none;
 }
 
 #spargelfest-img {
@@ -455,9 +464,13 @@ button:focus {
         width: auto;
     }
 
+    .title {
+        position: static;
+    }
+
     .title h3 {
-        font-size: 2em;
-        margin: 0 25px 0 75px;
+        font-size: 4em;
+        margin: 0 25px 0 25px;
         padding: 10px 0;
     }
 
