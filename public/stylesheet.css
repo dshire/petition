@@ -382,6 +382,7 @@ button:focus {
     font-family:'Proxima Nova', sans-serif;
     color: green;
     text-decoration: none;
+    display: block;
 }
 
 #spargelfest-img {
