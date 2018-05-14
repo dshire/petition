@@ -507,6 +507,10 @@ button:focus {
         padding: 10px 0;
     }
 
+    #img-container {
+        border-radius: 0;
+    }
+
     #logo {
         height: 60px;
         top: calc(50% - 30px);
