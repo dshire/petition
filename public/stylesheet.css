@@ -1,9 +1,14 @@
 /*-----------------GENERAL STUFF------------*/
+
+@font-face {
+    font-family: "bold-font";
+    src: url("fonts/bold.woff") format('woff');
+}
 *{
     color: green;
     margin: 0 auto;
     box-sizing: border-box;
-    font-family:'Proxima Nova', sans-serif;
+    font-family:'bold-font', sans-serif;
     user-select: none;
 }
 
@@ -12,7 +17,7 @@ html{
 }
 
 body {
-    background-color: white;
+    background-color: #ffed00;
     text-align: center;
     width: 100%;
     display: block;
@@ -21,6 +26,7 @@ body {
 h1, h2, h3, p {
     cursor: default;
 }
+
 
 /*----------------------HEAD-----------------------*/
 .header-cont {
@@ -44,7 +50,7 @@ h1, h2, h3, p {
     color: white;
     line-height: 1.5em;
     text-align:right;
-    font-family: 'proxima_nova_ltthin';
+    /* font-family: 'proxima_nova_ltthin'; */
     padding-right: 30px;
     font-size: 3rem;
 }
@@ -100,12 +106,12 @@ h1 {
 
 h2 {
     font-size: 2.5rem;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     min-width: 300px;
 }
 
 .body-title h2 {
-    margin: 20px auto;
+    margin: 40px auto 60px;
     max-width: 800px;
 }
 
@@ -128,13 +134,14 @@ h2 {
 }
 
 #img-container {
-    background-color: #3c3c3c;
-    border-radius: 12px;
+    /* background-color: #3c3c3c; */
+    /* border-radius: 12px; */
+    margin-bottom: 40px;
 }
 
 #spargel-weiss, #spargel-gruen {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     margin: 0;
 }
 
@@ -167,7 +174,7 @@ p {
 
 #name, #name2 {
     font-style: italic;
-    font-family: 'proxima_nova_ltthin';
+    /* font-family: 'proxima_nova_ltthin'; */
     margin: 10px 0 10px 0;
     text-align: left;
 }
@@ -179,14 +186,14 @@ p {
 .signers{
     font-size: 1.7rem;
     font-style: italic;
-    font-family: 'proxima_nova_ltsemibold';
+    /* font-family: 'proxima_nova_ltsemibold'; */
     margin: 10px 0 10px 0;
 }
 
 .signers-part {
     font-size: 1.7rem;
     font-style: italic;
-    font-family: 'proxima_nova_ltsemibold';
+    /* font-family: 'proxima_nova_ltsemibold'; */
 }
 
 .signer-container {
@@ -405,6 +412,10 @@ button:focus {
     margin-bottom: 50px;
     font-size: 2rem;
     /* font-family: 'proxima_nova_scosfthin'; */
+
+    text-decoration: none;
+    display: block;
+    color: green;
 }
 
 #xiroi-link {
@@ -487,7 +498,7 @@ button:focus {
     .header-title h2 {
         line-height: 1.5em;
         text-align:right;
-        font-family: 'proxima_nova_ltthin';
+        /* font-family: 'proxima_nova_ltthin'; */
         padding-right: 30px;
         font-size: 2.5rem;
     }
@@ -508,7 +519,7 @@ button:focus {
     }
 
     #img-container {
-        border-radius: 0;
+        /* border-radius: 0; */
     }
 
     #logo {
